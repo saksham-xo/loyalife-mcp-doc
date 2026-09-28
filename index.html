@@ -1,0 +1,975 @@
+<title>Loyalife MCP Guide</title>
+
+<script>
+(function(){
+  var PASSWORD = 'loyalife!@#';
+  var SESSION_KEY = 'loyalife_mcp_unlocked';
+
+  function isUnlocked(){
+    try { return sessionStorage.getItem(SESSION_KEY) === 'true'; } catch(e){ return false; }
+  }
+
+  function unlock(){
+    try { sessionStorage.setItem(SESSION_KEY, 'true'); } catch(e){}
+    document.getElementById('password-gate').style.display = 'none';
+    document.getElementById('content-wrapper').style.display = 'block';
+  }
+
+  function checkPassword(){
+    var input = document.getElementById('password-input');
+    if(input.value === PASSWORD){
+      unlock();
+    } else {
+      document.getElementById('password-error').style.display = 'block';
+      input.select();
+    }
+  }
+
+  window.addEventListener('DOMContentLoaded', function(){
+    if(isUnlocked()){
+      document.getElementById('password-gate').style.display = 'none';
+      document.getElementById('content-wrapper').style.display = 'block';
+      return;
+    }
+
+    document.getElementById('password-gate').style.display = 'flex';
+    document.getElementById('content-wrapper').style.display = 'none';
+
+    document.getElementById('password-form').addEventListener('submit', function(e){
+      e.preventDefault();
+      checkPassword();
+    });
+
+    document.getElementById('password-input').addEventListener('input', function(){
+      document.getElementById('password-error').style.display = 'none';
+    });
+  });
+})();
+</script>
+
+<style>
+  #password-gate{
+    position:fixed;
+    top:0; left:0; right:0; bottom:0;
+    background:var(--bg, #F5F7F6);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index:9999;
+    padding:20px;
+  }
+  #password-gate .gate-box{
+    background:var(--surface, #FFFFFF);
+    border:1px solid var(--line, #DCE4E2);
+    border-radius:16px;
+    padding:40px;
+    max-width:400px;
+    width:100%;
+    text-align:center;
+    box-shadow:0 20px 60px -15px rgba(0,0,0,0.15);
+  }
+  #password-gate .gate-icon{
+    font-size:40px;
+    margin-bottom:16px;
+  }
+  #password-gate h2{
+    margin:0 0 8px;
+    font-size:20px;
+  }
+  #password-gate p{
+    color:var(--ink-soft, #54646B);
+    font-size:14px;
+    margin:0 0 24px;
+  }
+  #password-gate input{
+    width:100%;
+    padding:12px 16px;
+    border:1.5px solid var(--line-strong, #B9C6C3);
+    border-radius:10px;
+    font-size:15px;
+    font-family:inherit;
+    outline:none;
+    transition:border-color 0.2s;
+  }
+  #password-gate input:focus{
+    border-color:var(--loyalife, #1B6F5C);
+  }
+  #password-gate button{
+    width:100%;
+    margin-top:12px;
+    padding:12px;
+    background:var(--loyalife, #1B6F5C);
+    color:#fff;
+    border:none;
+    border-radius:10px;
+    font-size:15px;
+    font-weight:600;
+    font-family:inherit;
+    cursor:pointer;
+    transition:opacity 0.2s;
+  }
+  #password-gate button:hover{
+    opacity:0.9;
+  }
+  #password-error{
+    display:none;
+    color:var(--cannot, #A8402C);
+    font-size:13px;
+    margin-top:8px;
+  }
+  #content-wrapper{
+    display:none;
+  }
+
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]) #password-gate{
+      background:#101615;
+    }
+    :root:not([data-theme="light"]) #password-gate .gate-box{
+      background:#161E1D;
+      border-color:#2A3634;
+    }
+    :root:not([data-theme="light"]) #password-gate input{
+      background:#101615;
+      border-color:#3C4A47;
+      color:#EDEFEA;
+    }
+  }
+  :root[data-theme="dark"] #password-gate{
+    background:#101615;
+  }
+  :root[data-theme="dark"] #password-gate .gate-box{
+    background:#161E1D;
+    border-color:#2A3634;
+  }
+  :root[data-theme="dark"] #password-gate input{
+    background:#101615;
+    border-color:#3C4A47;
+    color:#EDEFEA;
+  }
+</style>
+<style>
+  :root{
+    --bg:#F5F7F6;
+    --surface:#FFFFFF;
+    --ink:#132229;
+    --ink-soft:#54646B;
+    --ink-faint:#8A9599;
+    --line:#DCE4E2;
+    --line-strong:#B9C6C3;
+    --ai:#B4791F;
+    --ai-soft:#F3E4C8;
+    --loyalife:#1B6F5C;
+    --loyalife-soft:#DCEEE8;
+    --bridge:#6C6152;
+    --bridge-soft:#EDE8DE;
+    --can:#1B6F5C;
+    --cannot:#A8402C;
+    --cannot-soft:#F7E3DD;
+    color-scheme:light;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#101615;
+      --surface:#161E1D;
+      --ink:#EDEFEA;
+      --ink-soft:#AAB6B1;
+      --ink-faint:#748480;
+      --line:#2A3634;
+      --line-strong:#3C4A47;
+      --ai:#E0A94A;
+      --ai-soft:#3A2E15;
+      --loyalife:#4FBBA0;
+      --loyalife-soft:#123531;
+      --bridge:#B8AA92;
+      --bridge-soft:#2B2620;
+      --can:#4FBBA0;
+      --cannot:#E27E68;
+      --cannot-soft:#3A1E17;
+      color-scheme:dark;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#101615;
+    --surface:#161E1D;
+    --ink:#EDEFEA;
+    --ink-soft:#AAB6B1;
+    --ink-faint:#748480;
+    --line:#2A3634;
+    --line-strong:#3C4A47;
+    --ai:#E0A94A;
+    --ai-soft:#3A2E15;
+    --loyalife:#4FBBA0;
+    --loyalife-soft:#123531;
+    --bridge:#B8AA92;
+    --bridge-soft:#2B2620;
+    --can:#4FBBA0;
+    --cannot:#E27E68;
+    --cannot-soft:#3A1E17;
+    color-scheme:dark;
+  }
+
+  * { box-sizing:border-box; }
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Inter', -apple-system, sans-serif;
+    line-height:1.6;
+    padding:0 16px;
+  }
+  .wrap{ max-width:760px; margin:0 auto; padding-block:48px 96px; }
+
+  h1,h2,h3{ font-family:'Inter', -apple-system, sans-serif; letter-spacing:-0.01em; text-wrap:balance; }
+  h1{ font-size:clamp(28px,5vw,40px); line-height:1.15; margin:0 0 8px; }
+  h2{ font-size:22px; margin:0 0 4px; }
+  h3{ font-size:15px; margin:0 0 8px; text-transform:uppercase; letter-spacing:0.06em; color:var(--ink-soft); }
+  p{ margin:0 0 16px; max-width:65ch; }
+  strong{ color:var(--ink); }
+  a{ color:var(--loyalife); text-decoration-thickness:1px; }
+
+  .kicker{
+    font-family:'Inter', sans-serif;
+    font-size:12px; letter-spacing:0.14em; text-transform:uppercase;
+    color:var(--ai); margin:0 0 14px; display:flex; align-items:center; gap:8px;
+  }
+  .kicker::before{ content:''; width:8px; height:8px; border-radius:50%; background:var(--ai); display:inline-block; }
+
+  header.hero{ margin-bottom:56px; border-bottom:1px solid var(--line); padding-bottom:32px; }
+  .hero-sub{ color:var(--ink-soft); font-size:17px; max-width:60ch; margin-top:12px;}
+  .hero-meta{ display:flex; gap:18px; flex-wrap:wrap; margin-top:20px; font-family:'Inter',sans-serif; font-size:12px; color:var(--ink-faint); }
+  .hero-meta span{ padding:4px 10px; border:1px solid var(--line); border-radius:20px; }
+
+  nav.toc{
+    display:flex; flex-direction:column; margin:32px 0 64px;
+    background:var(--surface); border:1px solid var(--line); border-radius:12px; overflow:hidden;
+    font-family:'Inter',sans-serif; font-size:13px;
+  }
+  nav.toc a{
+    color:var(--ink-soft); text-decoration:none; padding:11px 16px;
+    border-bottom:1px solid var(--line);
+  }
+  nav.toc a:last-child{ border-bottom:none; }
+  nav.toc a:hover{ background:var(--bridge-soft); color:var(--ink); }
+
+  section{ margin:0 0 64px; scroll-margin-top:24px; }
+  section .num{ font-family:'Inter',sans-serif; color:var(--ink-faint); font-size:13px; }
+
+  /* ---- generic diagram shell ---- */
+  .diagram{
+    background:var(--surface); border:1px solid var(--line); border-radius:14px;
+    padding:24px; margin:20px 0 24px;
+  }
+  .diagram-cap{ font-family:'Inter',sans-serif; font-size:12px; color:var(--ink-faint); margin-top:14px; text-align:center;}
+
+  /* ---- vertical flow (arrow chain) ---- */
+  .flow{ display:flex; flex-direction:column; align-items:stretch; gap:0; }
+  .flow-node{
+    border:1.5px solid var(--line-strong); border-radius:10px; background:var(--bg);
+    padding:14px 16px; text-align:center; font-weight:600; font-size:14.5px;
+  }
+  .flow-node .sub{ display:block; font-weight:400; font-size:12.5px; color:var(--ink-soft); margin-top:3px; font-family:'Inter';}
+  .flow-arrow{ display:flex; justify-content:center; padding:6px 0; color:var(--ink-faint); font-family:'Inter',sans-serif; }
+
+  /* ---- side by side compare ---- */
+  .compare{ display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  @media (max-width:560px){ .compare{ grid-template-columns:1fr; } }
+  .compare .col{ border-radius:12px; padding:18px; border:1.5px solid var(--line); }
+  .compare .col.before{ background:var(--bridge-soft); }
+  .compare .col.after{ background:var(--loyalife-soft); border-color:var(--loyalife); }
+  .compare h4{ margin:0 0 12px; font-family:'Inter',sans-serif; font-size:12px; letter-spacing:0.08em; text-transform:uppercase; }
+  .compare .before h4{ color:var(--bridge); }
+  .compare .after h4{ color:var(--loyalife); }
+  .compare .flow-node{ background:var(--surface); font-size:13.5px; padding:10px 12px; }
+
+  /* ---- layered stack (architecture / big picture) ---- */
+  .stack{ display:flex; flex-direction:column; gap:0; align-items:center; }
+  .stack .layer{
+    width:100%; max-width:420px; border:2px solid var(--line-strong); border-radius:12px;
+    padding:16px 20px; text-align:center; background:var(--bg);
+  }
+  .stack .layer .title{ font-family:'Inter',sans-serif; font-weight:600; font-size:15px; }
+  .stack .layer .desc{ font-size:13px; color:var(--ink-soft); margin-top:4px; }
+  .stack .layer.ai{ border-color:var(--ai); background:var(--ai-soft); }
+  .stack .layer.mcp{ border-color:var(--bridge); background:var(--bridge-soft); }
+  .stack .layer.loy{ border-color:var(--loyalife); background:var(--loyalife-soft); }
+  .stack .down{ padding:6px 0; color:var(--ink-faint); }
+
+  /* ---- bridge visual ---- */
+  .bridge-visual{ display:flex; align-items:center; justify-content:space-between; gap:8px; }
+  .bridge-side{ flex:1; text-align:center; padding:16px 10px; border-radius:12px; font-family:'Inter',sans-serif; font-weight:600; font-size:14px;}
+  .bridge-side.ai{ background:var(--ai-soft); color:var(--ai); }
+  .bridge-side.loy{ background:var(--loyalife-soft); color:var(--loyalife); }
+  .bridge-mid{ flex:0 0 auto; text-align:center; font-family:'Inter',sans-serif; font-size:12px; color:var(--bridge); }
+  .bridge-mid .icon{ font-size:22px; display:block; margin-bottom:2px;}
+  .bridge-line{ height:2px; background:repeating-linear-gradient(90deg,var(--bridge) 0 6px, transparent 6px 12px); flex:1; min-width:24px; margin:0 4px;}
+
+  /* ---- 5-question access table -> cards ---- */
+  .access-grid{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  @media (max-width:560px){ .access-grid{ grid-template-columns:1fr; } }
+  .access-card{ border:1px solid var(--line); border-radius:12px; padding:16px; background:var(--surface); }
+  .access-q{ font-family:'Inter',sans-serif; font-weight:600; font-size:14px; color:var(--ink); margin-bottom:4px; }
+  .access-tag{ display:inline-block; font-family:'Inter',sans-serif; font-size:11px; letter-spacing:0.06em; text-transform:uppercase; color:var(--loyalife); background:var(--loyalife-soft); padding:2px 8px; border-radius:20px; margin-bottom:8px; }
+  .access-desc{ font-size:13.5px; color:var(--ink-soft); margin:0; }
+
+  details.tech{ margin-top:12px; border:1px dashed var(--line-strong); border-radius:10px; padding:10px 14px; background:var(--bg); }
+  details.tech summary{ font-family:'Inter',sans-serif; font-size:12px; color:var(--ink-faint); cursor:pointer; }
+  details.tech p{ font-size:13px; color:var(--ink-soft); margin:10px 0 0; }
+
+  /* ---- tool domain grid ---- */
+  .domain-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin:16px 0; }
+  @media (max-width:640px){ .domain-grid{ grid-template-columns:repeat(2,1fr); } }
+  .domain{ border:1px solid var(--line); border-radius:10px; padding:12px; font-size:13px; background:var(--surface); text-align:center; }
+
+  .can-cannot{ display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  @media (max-width:560px){ .can-cannot{ grid-template-columns:1fr; } }
+  .cc-col{ border-radius:12px; padding:18px 20px; }
+  .cc-col.can{ background:var(--loyalife-soft); border:1.5px solid var(--loyalife); }
+  .cc-col.cannot{ background:var(--cannot-soft); border:1.5px solid var(--cannot); }
+  .cc-col h4{ margin:0 0 10px; font-family:'Inter',sans-serif; font-size:13px; letter-spacing:0.06em; }
+  .cc-col.can h4{ color:var(--loyalife); }
+  .cc-col.cannot h4{ color:var(--cannot); }
+  .cc-col ul{ margin:0; padding-left:20px; font-size:13.5px; }
+  .cc-col li{ margin-bottom:6px; }
+
+  .usecase-grid{ display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:16px 0; }
+  @media (max-width:560px){ .usecase-grid{ grid-template-columns:1fr; } }
+  .usecase{ border:1px solid var(--line); border-radius:12px; padding:16px; background:var(--surface); }
+  .usecase .emoji{ font-size:20px; }
+  .usecase .label{ font-family:'Inter',sans-serif; font-size:12px; text-transform:uppercase; letter-spacing:0.05em; color:var(--ink-soft); margin:6px 0 2px; }
+  .usecase .ask{ font-style:italic; font-size:14px; margin-bottom:6px; }
+  .usecase .real{ font-size:12.5px; color:var(--ink-soft); }
+
+  .future-note{ border-left:3px solid var(--ai); padding:12px 16px; background:var(--ai-soft); border-radius:0 10px 10px 0; font-size:13.5px; color:var(--ink); margin-top:14px; }
+
+  .shift-compare{ display:grid; grid-template-columns:1fr auto 1fr; gap:12px; align-items:center; margin:16px 0; }
+  @media (max-width:600px){ .shift-compare{ grid-template-columns:1fr; } .shift-arrow{ transform:rotate(90deg); } }
+  .shift-box{ border:1.5px solid var(--line); border-radius:12px; padding:16px; font-size:13.5px; }
+  .shift-box.old{ background:var(--bridge-soft); }
+  .shift-box.new{ background:var(--loyalife-soft); border-color:var(--loyalife); }
+  .shift-arrow{ font-size:20px; color:var(--ink-faint); text-align:center; }
+
+  .checklist{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:8px; }
+  .checklist li{ display:flex; gap:10px; align-items:flex-start; font-size:14px; border:1px solid var(--line); border-radius:8px; padding:10px 12px; background:var(--surface); }
+  .checklist li::before{ content:'☐'; color:var(--loyalife); font-size:16px; line-height:1.3; }
+
+  .myth-grid{ display:flex; flex-direction:column; gap:8px; margin:16px 0; }
+  .myth{ display:flex; gap:10px; align-items:flex-start; padding:10px 14px; border-radius:8px; background:var(--cannot-soft); border:1px solid var(--cannot); font-size:14px; }
+  .myth .x{ color:var(--cannot); font-weight:700; }
+
+  .glossary-grid{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  @media (max-width:600px){ .glossary-grid{ grid-template-columns:1fr; } }
+  .term{ border:1px solid var(--line); border-radius:10px; padding:14px; background:var(--surface); }
+  .term .name{ font-family:'Inter',sans-serif; font-weight:700; font-size:14px; color:var(--loyalife); }
+  .term .def{ font-size:13px; color:var(--ink); margin-top:4px; }
+  .term .care{ font-size:12px; color:var(--ink-faint); margin-top:6px; }
+  .term .care b{ color:var(--ink-soft); }
+
+  /* ---- setup steps ---- */
+  .setup-step{ margin:0 0 32px; }
+  .setup-step img{ width:100%; border:1px solid var(--line-strong); border-radius:10px; display:block; margin-top:8px; margin-bottom:6px; box-shadow:0 8px 24px -12px rgba(0,0,0,0.28), 0 2px 6px -2px rgba(0,0,0,0.16); }
+  .setup-step .note{ font-size:13px; color:var(--ink-soft); margin:0; }
+
+  /* ---- classification pills ---- */
+  .pill{ display:inline-block; font-family:'Inter',sans-serif; font-size:10.5px; letter-spacing:0.03em; text-transform:uppercase; padding:3px 9px; border-radius:20px; white-space:nowrap; }
+  .pill.possible{ background:var(--loyalife-soft); color:var(--loyalife); }
+  .pill.tooling{ background:var(--ai-soft); color:var(--ai); }
+  .pill.backend{ background:var(--bridge-soft); color:var(--bridge); }
+  .pill.no{ background:var(--cannot-soft); color:var(--cannot); }
+
+  /* ---- comparison table ---- */
+  .table-wrap{ overflow-x:auto; margin:16px 0; border:1px solid var(--line); border-radius:12px; }
+  table.compare-table{ width:100%; border-collapse:collapse; font-size:13px; min-width:640px; }
+  table.compare-table th{ text-align:left; font-family:'Inter',sans-serif; font-size:10.5px; text-transform:uppercase; letter-spacing:0.04em; color:var(--ink-soft); background:var(--surface); padding:10px 12px; border-bottom:1px solid var(--line-strong); }
+  table.compare-table td{ padding:10px 12px; border-bottom:1px solid var(--line); vertical-align:top; color:var(--ink-soft); }
+  table.compare-table tr:last-child td{ border-bottom:none; }
+  table.compare-table td:first-child{ color:var(--ink); font-weight:500; }
+
+  /* ---- neutral two-up compare (client vs internal) ---- */
+  .compare .col.a{ background:var(--ai-soft); border-color:var(--ai); }
+  .compare .col.a h4{ color:var(--ai); }
+  .compare .col.b{ background:var(--loyalife-soft); border-color:var(--loyalife); }
+  .compare .col.b h4{ color:var(--loyalife); }
+
+  /* ---- internal team cards ---- */
+  .team-grid{ display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:16px 0; }
+  @media (max-width:600px){ .team-grid{ grid-template-columns:1fr; } }
+  .team-card{ border:1px solid var(--line); border-radius:12px; padding:16px 18px; background:var(--surface); }
+  .team-card h4{ margin:0 0 10px; font-family:'Inter',sans-serif; font-size:14px; }
+  .team-card ul{ margin:0 0 10px; padding-left:18px; font-size:13px; color:var(--ink-soft); }
+  .team-card li{ margin-bottom:6px; }
+
+  /* ---- lean-toward cards (decision framework) ---- */
+  .lean-grid{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:16px; }
+  @media (max-width:560px){ .lean-grid{ grid-template-columns:1fr; } }
+  .lean-card{ border:1px solid var(--line); border-left:4px solid var(--line-strong); border-radius:10px; padding:16px 18px; background:var(--surface); }
+  .lean-card.ai{ border-left-color:var(--ai); }
+  .lean-card.loy{ border-left-color:var(--loyalife); }
+  .lean-card h4{ margin:0 0 10px; font-family:'Inter',sans-serif; font-size:13px; }
+  .lean-card.ai h4{ color:var(--ai); }
+  .lean-card.loy h4{ color:var(--loyalife); }
+  .lean-card ul{ margin:0; padding-left:18px; font-size:13.5px; color:var(--ink-soft); }
+  .lean-card li{ margin-bottom:6px; }
+
+  /* ---- admin console mock ---- */
+  .console-mock{ border:1.5px dashed var(--line-strong); border-radius:14px; padding:20px; background:var(--surface); max-width:360px; }
+
+  footer{ margin-top:80px; padding-top:20px; border-top:1px solid var(--line); font-size:13px; color:var(--ink-faint); }
+
+  ::selection{ background:var(--loyalife-soft); }
+</style>
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+
+<div id="password-gate">
+  <div class="gate-box">
+    <div class="gate-icon">🔒</div>
+    <h2>Loyalife MCP Guide</h2>
+    <p>This document is password protected. Enter the password to continue.</p>
+    <form id="password-form">
+      <input type="password" id="password-input" placeholder="Enter password" autocomplete="current-password">
+      <div id="password-error">Incorrect password. Please try again.</div>
+      <button type="submit">Unlock</button>
+    </form>
+  </div>
+</div>
+
+<div id="content-wrapper">
+<div class="wrap">
+
+  <header class="hero">
+    <p class="kicker">Loyalife · internal guide</p>
+    <h1>The Loyalife MCP</h1>
+    <p class="hero-sub">What it is, how a request actually travels through it, what it can and can't do today, and how to set it up.</p>
+    <div class="hero-meta">
+      <span>~14 min read</span>
+    </div>
+  </header>
+
+  <nav class="toc">
+    <a href="#s1">1. MCP in plain terms</a>
+    <a href="#s2">2. The Loyalife MCP</a>
+    <a href="#s3">3. The request journey</a>
+    <a href="#s4">4. Access &amp; security</a>
+    <a href="#s5">5. What it can do</a>
+    <a href="#s6">6. Before / after</a>
+    <a href="#s7">7. Save us a feature build</a>
+    <a href="#s9">8. Who actually uses this</a>
+    <a href="#s13">9. What it is not</a>
+    <a href="#s14">10. Terms to know</a>
+    <a href="#s15">11. Setting it up</a>
+    <a href="#s16">12. The big picture</a>
+  </nav>
+
+  <section id="s1">
+    <p class="num">01</p>
+    <h2>MCP, in plain terms</h2>
+
+    <div class="compare">
+      <div class="col before">
+        <h4>AI that can only talk</h4>
+        <div class="flow">
+          <div class="flow-node">You ask a question</div>
+          <div class="flow-arrow">↓</div>
+          <div class="flow-node">AI answers from what it already knows<span class="sub">it cannot check anything, or act</span></div>
+        </div>
+      </div>
+      <div class="col after">
+        <h4>AI that can talk + act</h4>
+        <div class="flow">
+          <div class="flow-node">You ask a question</div>
+          <div class="flow-arrow">↓</div>
+          <div class="flow-node">AI looks something up or takes an action in Loyalife<span class="sub">then answers with real, current, permission-checked information</span></div>
+        </div>
+      </div>
+    </div>
+
+    <p style="margin-top:20px"><strong>MCP (Model Context Protocol)</strong> is the standard that makes the second kind possible — think of it the way you'd think of a plug shape: an agreed interface so any AI assistant and any piece of software can talk to each other without a custom, one-off integration every time.</p>
+
+    <p style="margin-top:20px"><strong>The one thing to never forget:</strong> MCP does not make the AI all-powerful inside Loyalife. It gives it a controlled way to use specific things Loyalife already lets it use — nothing more.</p>
+  </section>
+
+  <section id="s2">
+    <p class="num">02</p>
+    <h2>What is the Loyalife MCP, specifically?</h2>
+    <p>It's a <strong>second front door</strong> into the platform — sitting alongside the existing admin console, not replacing it.</p>
+
+    <div class="diagram">
+      <div class="flow">
+        <div class="flow-node">AI Assistant <span class="sub">Claude, ChatGPT, Copilot, other agents</span></div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-node" style="border-color:var(--bridge); background:var(--bridge-soft);">Loyalife MCP Server <span class="sub">the controlled interface</span></div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-node">Loyalife's existing services <span class="sub">RBAC, members, config, campaigns…</span></div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-node">The same database &amp; business logic the admin console already uses</div>
+      </div>
+    </div>
+
+    <p>The MCP talks to the same services that an admin/user can already use from the frontend in the admin console.</p>
+    <p>The AI and your browser never share each other's login details directly — a background handshake (Section 4) keeps the two connected without either side seeing the other's credentials.</p>
+  </section>
+
+  <section id="s3">
+    <p class="num">03</p>
+    <h2>How a request travels</h2>
+    <div class="diagram">
+      <div class="flow">
+        <div class="flow-node">① You ask the AI assistant something</div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-node">② The AI figures out what you're asking for</div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-node">③ It checks whether a Loyalife tool can help</div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-node" style="border-color:var(--ai); background:var(--ai-soft);">④ Loyalife confirms who you are &amp; what you're allowed to do</div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-node">⑤ The capability runs — a lookup, a search, an action</div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-node">⑥ The result comes back to the AI</div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-node">⑦ The AI turns it into a plain-language answer</div>
+      </div>
+      <p class="diagram-cap">step ④ happens on <em>every single request</em> — there's no "trusted session" shortcut</p>
+    </div>
+  </section>
+
+  <section id="s4">
+    <p class="num">04</p>
+    <h2>Access &amp; security</h2>
+
+    <div class="access-grid">
+      <div class="access-card">
+        <span class="access-tag">Authentication</span>
+        <div class="access-q">Who are you?</div>
+        <p class="access-desc">You log in once through the normal Loyalife flow. The AI never receives your console password or cookie.</p>
+      </div>
+      <div class="access-card">
+        <span class="access-tag">Authorization</span>
+        <div class="access-q">Are you allowed to do this?</div>
+        <p class="access-desc">Your existing role decides which tools the AI can even see — and it's re-checked the instant a tool is called, not just at login.</p>
+      </div>
+      <div class="access-card">
+        <span class="access-tag">Session / token</span>
+        <div class="access-q">How long is this valid for?</div>
+        <p class="access-desc">Access expires automatically and refreshes quietly in the background — a live connection won't nag you, but a stale one dies on its own.</p>
+      </div>
+      <div class="access-card">
+        <span class="access-tag">Revocation</span>
+        <div class="access-q">Can this be shut off?</div>
+        <p class="access-desc">If an account is locked, deactivated, or program access is pulled, the AI session dies immediately — not "eventually."</p>
+      </div>
+      <div class="access-card">
+        <span class="access-tag">Audit log</span>
+        <div class="access-q">What happened?</div>
+        <p class="access-desc">Every session and every tool call is logged: who, what, when, and whether it succeeded.</p>
+      </div>
+      <div class="access-card">
+        <span class="access-tag">Rate limiting</span>
+        <div class="access-q">Is this happening too fast?</div>
+        <p class="access-desc">Independent limits per person, per program, and per login attempt stop runaway or abusive use — including a loop the AI itself might get stuck in.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="s5">
+    <p class="num">05</p>
+    <h2>What can it actually do?</h2>
+    <p>The Loyalife MCP exposes roughly <strong>119 tools across 15 functional areas</strong> — covering most of what an admin can already do in the console.</p>
+
+    <div class="diagram">
+      <div class="flow">
+        <div class="flow-node">AI Assistant</div>
+        <div class="flow-arrow">↓</div>
+      </div>
+      <div class="domain-grid">
+        <div class="domain">Members</div><div class="domain">Segments</div><div class="domain">Campaigns</div>
+        <div class="domain">Tiers</div><div class="domain">Rule Engine</div><div class="domain">Attributes</div>
+        <div class="domain">Communications</div><div class="domain">Team &amp; Roles</div><div class="domain">Approvals</div>
+        <div class="domain">Fraud / Anomaly</div><div class="domain">Referral Program</div><div class="domain">Bulk Data</div>
+        <div class="domain">Program Config</div><div class="domain">Reporting</div><div class="domain">Data Views</div>
+      </div>
+      <div class="flow" style="margin-top:6px;">
+        <div class="flow-arrow">↓</div>
+        <div class="flow-node">Loyalife platform</div>
+      </div>
+    </div>
+
+    <p><strong>A tool the AI can't see doesn't exist to it.</strong> If your role lacks permission, the AI isn't offered that tool at all — it's not that it tries and gets denied, it's never on the menu.</p>
+
+    <div class="can-cannot" style="margin-top:20px;">
+      <div class="cc-col can">
+        <h4>CAN</h4>
+        <ul>
+          <li>Use specific capabilities that have been exposed as tools</li>
+          <li>Retrieve information you're permitted to see</li>
+          <li>Perform permitted actions, logged as they happen</li>
+          <li>Work with the structured inputs/outputs each tool defines</li>
+        </ul>
+      </div>
+      <div class="cc-col cannot">
+        <h4>CANNOT</h4>
+        <ul>
+          <li>Access anything not explicitly exposed as a tool</li>
+          <li>See or do anything your role doesn't permit</li>
+          <li>Bypass RBAC, validation, or business rules</li>
+          <li>Grant itself more access than you actually have</li>
+          <li>Replace the console or underlying services</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="s6">
+    <p class="num">06</p>
+    <h2>Before MCP vs. after MCP</h2>
+    <div class="compare">
+      <div class="col before">
+        <h4>Before</h4>
+        <div class="flow">
+          <div class="flow-node">You have a question</div>
+          <div class="flow-arrow">↓</div>
+          <div class="flow-node">Figure out which screen or report has it</div>
+          <div class="flow-arrow">↓</div>
+          <div class="flow-node">Navigate there, or ask engineering / another PM</div>
+          <div class="flow-arrow">↓</div>
+          <div class="flow-node">Retrieve raw data, interpret it yourself</div>
+          <div class="flow-arrow">↓</div>
+          <div class="flow-node">Manually do the next step</div>
+        </div>
+      </div>
+      <div class="col after">
+        <h4>After</h4>
+        <div class="flow">
+          <div class="flow-node">You have a question</div>
+          <div class="flow-arrow">↓</div>
+          <div class="flow-node">Ask the AI assistant directly</div>
+          <div class="flow-arrow">↓</div>
+          <div class="flow-node">It identifies the right tool</div>
+          <div class="flow-arrow">↓</div>
+          <div class="flow-node">Loyalife runs the permitted lookup/action</div>
+          <div class="flow-arrow">↓</div>
+          <div class="flow-node">AI explains the result in plain language</div>
+        </div>
+      </div>
+    </div>
+    <p style="margin-top:20px"><strong>What this removes:</strong> manual navigation across screens, context-switching, repetitive lookups, and needing to know exactly which report or API has the answer.</p>
+    <p><strong>What it does not remove:</strong> permissions, business rules, validation, approval steps, or the need for a capability to exist as an exposed tool in the first place. MCP removes the legwork around governance — it doesn't skip governance.</p>
+  </section>
+
+  <section id="s7">
+    <p class="num">07</p>
+    <h2>Where MCP can save us from building another feature</h2>
+
+    <p><strong>The important distinction: MCP does not create capabilities.</strong> If the underlying Loyalife data or operation exists and can be safely exposed as a tool, we may be able to reach it through AI without building a dedicated experience for every use case.</p>
+
+    <h3 style="margin-top:32px;">Simple examples, today</h3>
+    <div class="usecase-grid">
+      <div class="usecase">
+        <span class="emoji">🔎</span>
+        <div class="label">Find information</div>
+        <div class="ask">"Show me this member's redemption history"</div>
+        <div class="real">A read-only tool looks up and returns the data.</div>
+      </div>
+      <div class="usecase">
+        <span class="emoji">📊</span>
+        <div class="label">Understand data</div>
+        <div class="ask">"How many members are in Tier 2 right now?"</div>
+        <div class="real">A read tool aggregates and returns a count.</div>
+      </div>
+      <div class="usecase">
+        <span class="emoji">⚙️</span>
+        <div class="label">Perform an action</div>
+        <div class="ask">"Approve this anomaly transaction"</div>
+        <div class="real">A write tool performs the action — same permission checks, fully logged.</div>
+      </div>
+      <div class="usecase">
+        <span class="emoji">🧩</span>
+        <div class="label">Configure something</div>
+        <div class="ask">"Update this tier's qualification method"</div>
+        <div class="real">A write tool changes program config, same as doing it in the console.</div>
+      </div>
+    </div>
+
+    <h3 style="margin-top:32px;">Example 1: bulk campaign creation from a spec</h3>
+    <p>A spreadsheet defines a batch of campaigns — name, rules, dates, target segment, one row per campaign. Today, someone builds each one by hand in the console. With MCP, Claude reads the spec and creates them directly — the same pattern already used to bulk-configure member attributes.</p>
+
+    <div class="diagram">
+      <div class="flow">
+        <div class="flow-node">Spreadsheet with campaign definitions — one row per campaign</div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-node">Claude reads the spec and maps each row to Loyalife's campaign &amp; rule fields</div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-node">MCP tools create each campaign and its rules, one at a time, permission-checked</div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-node">Claude reports back what was created — and flags anything it couldn't map cleanly</div>
+      </div>
+    </div>
+
+    <p style="margin-top:12px; font-size:13.5px; color:var(--ink-soft);">This is an example of a real feature that doesn't need to be built as a Loyalife feature. MCP already exposes what it needs.</p>
+
+    <h3 style="margin-top:32px;">Example 2: bulk claims approval from a review list</h3>
+    <p>A CS lead has already reviewed a batch of claims and knows which should be approved and which declined. Today, that means opening the approvals queue and clicking through them one at a time. With MCP, Claude works through the list directly.</p>
+
+    <div class="diagram">
+      <div class="flow">
+        <div class="flow-node">List of claim IDs with approve/decline decisions already made</div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-node">Claude looks up each claim's current status and flags any that don't match expectations</div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-node">MCP tools approve or decline each one, permission-checked and logged</div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-node">Claude reports back what went through — and what it skipped or flagged</div>
+      </div>
+    </div>
+
+    <p style="margin-top:12px; font-size:13.5px; color:var(--ink-soft);">This is an example of another real feature that doesn't need to be built as a Loyalife feature. MCP already exposes what it needs.</p>
+
+    <h3 style="margin-top:32px;">More examples across the platform</h3>
+    <div class="table-wrap">
+      <table class="compare-table">
+        <tr><th>Use case</th><th>Traditional approach</th><th>MCP opportunity</th></tr>
+        <tr>
+          <td>What's Program X's current tier &amp; qualification setup?</td>
+          <td>Navigate the Tiers screen, cross-reference config</td>
+          <td>Ask directly, get a plain-language summary</td>
+        </tr>
+        <tr>
+          <td>Who's in Segment Y, and what does it actually filter on?</td>
+          <td>Open the segment builder, inspect filter logic</td>
+          <td>Ask directly, including "why is member Z in/out of this segment?"</td>
+        </tr>
+        <tr>
+          <td>Why didn't this member receive points on their last transaction?</td>
+          <td>Pull transaction logs, cross-check rules, maybe escalate to engineering</td>
+          <td>AI gathers transaction, rule, and anomaly context in one pass</td>
+        </tr>
+        <tr>
+          <td>Validate a new client's setup against the SOW before go-live</td>
+          <td>Manually walk every config screen against a checklist</td>
+          <td>AI reads back the current configuration for a human to compare against the SOW</td>
+        </tr>
+        <tr>
+          <td>Approve/decline a flagged anomaly transaction, with the reasoning shown</td>
+          <td>Open the approvals queue, inspect flags manually</td>
+          <td>AI surfaces why it was flagged, then performs the approval/decline</td>
+        </tr>
+        <tr>
+          <td>Set up a tailored demo program before a client pitch</td>
+          <td>Manually configure a demo program and seed sample data</td>
+          <td>AI creates the campaign/segment/sample data on request</td>
+        </tr>
+        <tr>
+          <td>Bulk-correct member point balances after a data error</td>
+          <td>Raise it with engineering, or run a manual correction script</td>
+          <td>AI could technically perform the correction directly</td>
+        </tr>
+        <tr>
+          <td>"How does our redemption rate compare to last quarter?"</td>
+          <td>Pull a report, or ask the data team</td>
+          <td>AI assembles this from several read tools</td>
+        </tr>
+        <tr>
+          <td>How many points expire in the next 30 days, and for whom?</td>
+          <td>A dedicated expiry report/screen</td>
+          <td>Ask directly — expiry-schedule tools already return this per member</td>
+        </tr>
+        <tr>
+          <td>Summarize pending approvals older than 3 days, grouped by type</td>
+          <td>An approvals-aging dashboard</td>
+          <td>AI pulls pending/all approvals and groups them</td>
+        </tr>
+        <tr>
+          <td>Which fraud rules triggered the most this month?</td>
+          <td>A fraud-rule analytics feature</td>
+          <td>AI cross-references fraud rules with anomaly transactions</td>
+        </tr>
+        <tr>
+          <td>Who has access to what, and does anyone have excessive permissions?</td>
+          <td>A user-access-audit report</td>
+          <td>AI reads team/role data and flags outliers</td>
+        </tr>
+        <tr>
+          <td>Walk me through everything configured for Program X and flag anything incomplete</td>
+          <td>A structured go-live checklist tool</td>
+          <td>AI reads config/tier/rule/fraud data and reports back</td>
+        </tr>
+        <tr>
+          <td>What's different between Program A's and Program B's tier setup?</td>
+          <td>A "compare programs" feature</td>
+          <td>AI pulls both configs and diffs them live</td>
+        </tr>
+        <tr>
+          <td>How much does Segment A overlap with Segment B?</td>
+          <td>A segment-overlap analysis tool</td>
+          <td>AI could compute this from member/segment data</td>
+        </tr>
+        <tr>
+          <td>Auto-pull member/transaction/rule context the moment a support ticket references a member</td>
+          <td>An embedded support-tool integration</td>
+          <td>Everything it needs exists as read tools, ad hoc in chat</td>
+        </tr>
+      </table>
+    </div>
+  </section>
+
+  <section id="s9">
+    <p class="num">08</p>
+    <h2>Who actually uses this?</h2>
+    <p>Many enterprise clients — banks especially — spend little time in the admin console themselves. Internal Loyalife teams are likely the first real users of MCP.</p>
+
+    <div class="team-grid" style="margin-top:24px;">
+      <div class="team-card">
+        <h4>Demo / Pre-sales</h4>
+        <ul>
+          <li>Pull program/campaign details live to answer a prospect's question</li>
+          <li>Walk through a sample member's journey during a pitch</li>
+          <li>Seed sample data for a tailored demo</li>
+        </ul>
+        <p style="font-size:12.5px; color:var(--ink-soft); margin:0;">Arguably the strongest pitch moment: demonstrating an AI-assisted conversation with Loyalife, live, is itself the demo.</p>
+      </div>
+      <div class="team-card">
+        <h4>Implementation</h4>
+        <ul>
+          <li>Answer "how is this currently configured?" during setup</li>
+          <li>Spot-check tier/rule/fraud config against expectations</li>
+          <li>Make small config adjustments during setup</li>
+        </ul>
+      </div>
+      <div class="team-card">
+        <h4>Customer Success</h4>
+        <ul>
+          <li>"How is this program configured?" without even opening the Loyalife admin console</li>
+          <li>Investigate a client's member/program question directly</li>
+          <li>Assemble a performance-trend view from existing data</li>
+        </ul>
+        <p style="font-size:12.5px; color:var(--ink-soft); margin:0;">A great day-to-day timesaver.</p>
+      </div>
+      <div class="team-card">
+        <h4>Customer Support</h4>
+        <ul>
+          <li>Gather member/transaction/rule context before responding</li>
+          <li>Check anomaly/fraud flags on a disputed transaction</li>
+        </ul>
+        <p style="font-size:12.5px; color:var(--ink-soft); margin:0;">Speeds up investigation. A real backend bug can now get escalated to engineering — and with better evidence attached.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="s13">
+    <p class="num">09</p>
+    <h2>What MCP is not</h2>
+    <div class="myth-grid">
+      <div class="myth"><span class="x">✕</span> An AI model itself — it's not Claude or ChatGPT, it's what connects them to Loyalife</div>
+      <div class="myth"><span class="x">✕</span> A replacement for Loyalife's backend services</div>
+      <div class="myth"><span class="x">✕</span> Unrestricted database access</div>
+      <div class="myth"><span class="x">✕</span> A way to get every Loyalife capability "for free"</div>
+      <div class="myth"><span class="x">✕</span> A way to bypass login, permissions, or business rules</div>
+      <div class="myth"><span class="x">✕</span> A way for the AI to grant itself more access than the requesting user has</div>
+    </div>
+
+    <div class="diagram" style="margin-top:20px;">
+      <div class="bridge-visual">
+        <div class="bridge-side ai">AI world</div>
+        <div class="bridge-mid"><span class="icon">⤭</span>MCP<br>the bridge</div>
+        <div class="bridge-side loy">Loyalife world</div>
+      </div>
+      <p class="diagram-cap">the only crossing point — with a checkpoint on every single trip across</p>
+    </div>
+  </section>
+
+  <section id="s14">
+    <p class="num">10</p>
+    <h2>Terms you'll actually need</h2>
+    <div class="glossary-grid">
+      <div class="term"><div class="name">MCP</div><div class="def">The standard that lets an AI call external tools.</div><div class="care"><b>Why care:</b> it's the "how" behind every AI–Loyalife interaction.</div></div>
+      <div class="term"><div class="name">Tool</div><div class="def">One specific, exposed capability — e.g. "look up a member."</div><div class="care"><b>Why care:</b> this is the unit you'll scope when requesting a new AI-usable capability.</div></div>
+      <div class="term"><div class="name">Authentication</div><div class="def">Confirming who you are.</div><div class="care"><b>Why care:</b> happens once, through the normal login.</div></div>
+      <div class="term"><div class="name">Authorization (RBAC)</div><div class="def">Confirming what you're allowed to do.</div><div class="care"><b>Why care:</b> checked live, every single call — not just at login.</div></div>
+      <div class="term"><div class="name">Session</div><div class="def">The record of "you're currently connected."</div><div class="care"><b>Why care:</b> it has a lifespan and dies if you're deactivated.</div></div>
+      <div class="term"><div class="name">Access token</div><div class="def">A short-lived pass the AI uses to make requests.</div><div class="care"><b>Why care:</b> expires automatically within roughly an hour.</div></div>
+      <div class="term"><div class="name">Refresh token</div><div class="def">A longer-lived credential used to get a new access token silently.</div><div class="care"><b>Why care:</b> valid ~30 days, single-use each time.</div></div>
+      <div class="term"><div class="name">Rate limiting</div><div class="def">Caps on how many requests can happen in a given time.</div><div class="care"><b>Why care:</b> prevents abuse or a runaway automated loop.</div></div>
+      <div class="term"><div class="name">Audit log</div><div class="def">The record of every session and every tool call.</div><div class="care"><b>Why care:</b> how "what did the AI actually do" gets answered later.</div></div>
+      <div class="term"><div class="name">Revocation</div><div class="def">Killing access before it would naturally expire.</div><div class="care"><b>Why care:</b> instant if an account or program is locked.</div></div>
+    </div>
+  </section>
+
+  <section id="s15">
+    <p class="num">11</p>
+    <h2>Setting it up</h2>
+    <p>Captured Example: Connecting to a QA program.</p>
+
+    <h3 style="margin-top:8px;">Admin side: turn MCP on</h3>
+
+    <div class="setup-step">
+      <h3 style="margin-top:20px;">1. Make MCP visible for the program</h3>
+      <p class="note">Applies the same way on QA, EU, or IN. Go to the Base Program → Platform Config → Program Level Settings, pick the program, open Module Config, and turn on "AI agent access." This just makes the MCP option show up in that program's own settings — it doesn't connect anything yet.</p>
+      <img src="assets/setup-00a-module-config.png" alt="Base Program Platform Config, Module Config screen, AI agent access toggle turned on">
+    </div>
+
+    <div class="setup-step">
+      <h3>2. Turn MCP on inside the program</h3>
+      <p class="note">Open that program directly → Program Settings → Modules → MCP, and choose which AI agents can connect. Works best with Claude.</p>
+      <img src="assets/setup-00b-program-modules.png" alt="Program Settings, Modules tab, MCP section with Claude, ChatGPT, and Microsoft Copilot toggles">
+    </div>
+
+    <h3 style="margin-top:36px;">Connecting from Claude</h3>
+
+    <div class="setup-step">
+      <h3 style="margin-top:20px;">3. Log in to Loyalife</h3>
+      <img src="assets/setup-01-login.png" alt="Loyalife login screen">
+    </div>
+
+    <div class="setup-step">
+      <h3>4. In Claude, go to Settings → Connectors, search "Loyalife," and hit Connect</h3>
+      <img src="assets/setup-02-connectors.png" alt="Claude Connectors settings listing Loyalife entries with a Connect button">
+    </div>
+
+    <div class="setup-step">
+      <h3>5. Accept the redirect, then authorize on the screen that follows</h3>
+      <img src="assets/setup-03-redirect-confirm.png" alt="Claude's Finish connecting a connector confirmation prompt">
+      <img src="assets/setup-03-authorize.png" alt="Loyalife MCP authorization screen showing the signed-in admin and requested access">
+    </div>
+
+    <div class="setup-step">
+      <h3>6. Select the program to connect</h3>
+      <img src="assets/setup-04-select-program.png" alt="Program picker dropdown on the authorization screen">
+    </div>
+
+    <div class="setup-step">
+      <h3>7. If MCP isn't enabled for that program, an admin turns it on first</h3>
+      <img src="assets/setup-05-not-enabled.png" alt="This connection cannot be authorized — MCP is not enabled for this program">
+      <p class="note">This is steps 1 &amp; 2 above, done for that program.</p>
+    </div>
+
+    <div class="setup-step">
+      <h3>8. You're redirected back to Claude</h3>
+      <img src="assets/setup-06-open-claude.png" alt="Open Claude confirmation dialog">
+      <img src="assets/setup-06-connected-toast.png" alt="Connected to Loyalife MCP QA confirmation toast">
+    </div>
+
+    <div class="setup-step">
+      <h3>9. Verify — from Claude Settings, or Claude Code's installed plugins</h3>
+      <img src="assets/setup-07-settings-verify.png" alt="Connectors settings showing Loyalife MCP QA as connected">
+      <img src="assets/setup-07-claude-code-plugins.png" alt="Claude Code plugins panel listing the Loyalife MCP servers">
+      <img src="assets/setup-07-live-test.png" alt="A live test query listing the programs accessible through the MCP connection">
+    </div>
+  </section>
+
+  <section id="s16">
+    <p class="num">12</p>
+    <h2>The big picture</h2>
+    <div class="diagram">
+      <div class="stack">
+        <div class="layer ai"><span class="title">AI / LLM</span><span class="desc">Understands user intent</span></div>
+        <div class="down">↓</div>
+        <div class="layer mcp"><span class="title">MCP</span><span class="desc">Controlled interface to specific, permitted tools</span></div>
+        <div class="down">↓</div>
+        <div class="layer loy"><span class="title">LOYALIFE</span><span class="desc">Data + business logic + services + permissions</span></div>
+      </div>
+    </div>
+    <p style="font-size:17px; margin-top:24px;"><strong>The one sentence to remember:</strong> MCP doesn't make Loyalife itself intelligent. It gives an AI assistant a controlled, permission-checked way to interact with the specific capabilities we choose to expose — nothing more, nothing less.</p>
+    <p style="margin-top:16px; font-size:14.5px; color:var(--ink-soft);">Practically, that means the useful question for a PM isn't "where do we put the AI?" — it's "what capability should we expose, to whom, and under what conditions?" The nearest-term proving ground for that is probably our own teams, not client admins; the longer-term opportunity, including in enterprise conversations, still depends on the same fundamentals — permissions, auditability, and capabilities that are actually built and exposed.</p>
+  </section>
+
+</div>
+</div>
