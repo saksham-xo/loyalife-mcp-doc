@@ -439,7 +439,7 @@
   <header class="hero">
     <p class="kicker">Loyalife · internal guide</p>
     <h1>The Loyalife MCP</h1>
-    <p class="hero-sub">What it is, how a request actually travels through it, what it can and can't do today, and how to set it up.</p>
+    <p class="hero-sub">A simple guide to what MCP is, how it connects AI to Loyalife, what it can do, and how to set it up.</p>
     <div class="hero-meta">
       <span>~14 min read</span>
     </div>
@@ -448,12 +448,12 @@
   <nav class="toc">
     <a href="#s1">1. MCP in plain terms</a>
     <a href="#s2">2. The Loyalife MCP</a>
-    <a href="#s3">3. The request journey</a>
+    <a href="#s3">3. How a request works</a>
     <a href="#s4">4. Access &amp; security</a>
     <a href="#s5">5. What it can do</a>
     <a href="#s6">6. Before / after</a>
-    <a href="#s7">7. Save us a feature build</a>
-    <a href="#s9">8. Who actually uses this</a>
+    <a href="#s7">7. Where it can save feature work</a>
+    <a href="#s9">8. Who can use it</a>
     <a href="#s13">9. What it is not</a>
     <a href="#s14">10. Terms to know</a>
     <a href="#s15">11. Setting it up</a>
@@ -463,6 +463,7 @@
   <section id="s1">
     <p class="num">01</p>
     <h2>MCP, in plain terms</h2>
+    <p style="margin-top:20px"><strong>MCP (Model Context Protocol)</strong> is a standard that lets an AI assistant use tools and data from another system.</p>
 
     <div class="compare">
       <div class="col before">
@@ -483,15 +484,15 @@
       </div>
     </div>
 
-    <p style="margin-top:20px"><strong>MCP (Model Context Protocol)</strong> is the standard that makes the second kind possible — think of it the way you'd think of a plug shape: an agreed interface so any AI assistant and any piece of software can talk to each other without a custom, one-off integration every time.</p>
+    <p style="margin-top:20px"><strong>Think of MCP as a bridge. </strong>It gives an AI a standard way to interact with specific capabilities in another system.</p>
 
-    <p style="margin-top:20px"><strong>The one thing to never forget:</strong> MCP does not make the AI all-powerful inside Loyalife. It gives it a controlled way to use specific things Loyalife already lets it use — nothing more.</p>
+    <p style="margin-top:20px"><strong>Important:</strong> MCP does not give the AI unlimited access to Loyalife. It can only use the tools and permissions made available to it.</p>
   </section>
 
   <section id="s2">
     <p class="num">02</p>
-    <h2>What is the Loyalife MCP, specifically?</h2>
-    <p>It's a <strong>second front door</strong> into the platform — sitting alongside the existing admin console, not replacing it.</p>
+    <h2>What is the Loyalife MCP?</h2>
+    <p> The Loyalife MCP is a controlled interface between an AI assistant and Loyalife.</p>
 
     <div class="diagram">
       <div class="flow">
@@ -499,14 +500,13 @@
         <div class="flow-arrow">↓</div>
         <div class="flow-node" style="border-color:var(--bridge); background:var(--bridge-soft);">Loyalife MCP Server <span class="sub">the controlled interface</span></div>
         <div class="flow-arrow">↓</div>
-        <div class="flow-node">Loyalife's existing services <span class="sub">RBAC, members, config, campaigns…</span></div>
+        <div class="flow-node">Loyalife's existing services <span class="sub">Members, campaigns, rules, configuration, approvals, and more</span></div>
         <div class="flow-arrow">↓</div>
         <div class="flow-node">The same database &amp; business logic the admin console already uses</div>
       </div>
     </div>
 
-    <p>The MCP talks to the same services that an admin/user can already use from the frontend in the admin console.</p>
-    <p>The AI and your browser never share each other's login details directly — a background handshake (Section 4) keeps the two connected without either side seeing the other's credentials.</p>
+    <p>It uses the same underlying services and business rules as the Loyalife admin console. MCP adds another way to access capabilities through an AI assistant.</p>
   </section>
 
   <section id="s3">
@@ -514,21 +514,21 @@
     <h2>How a request travels</h2>
     <div class="diagram">
       <div class="flow">
-        <div class="flow-node">① You ask the AI assistant something</div>
+        <div class="flow-node">① You ask the AI assistant a question or give it a task</div>
         <div class="flow-arrow">↓</div>
-        <div class="flow-node">② The AI figures out what you're asking for</div>
+        <div class="flow-node">② The AI identifies what you need</div>
         <div class="flow-arrow">↓</div>
-        <div class="flow-node">③ It checks whether a Loyalife tool can help</div>
+        <div class="flow-node">③ It selects an available Loyalife tool</div>
         <div class="flow-arrow">↓</div>
-        <div class="flow-node" style="border-color:var(--ai); background:var(--ai-soft);">④ Loyalife confirms who you are &amp; what you're allowed to do</div>
+        <div class="flow-node">④ Loyalife checks your identity and permissions</div>
         <div class="flow-arrow">↓</div>
-        <div class="flow-node">⑤ The capability runs — a lookup, a search, an action</div>
+        <div class="flow-node">⑤ The tool reads data or performs the allowed action</div>
         <div class="flow-arrow">↓</div>
-        <div class="flow-node">⑥ The result comes back to the AI</div>
+        <div class="flow-node">⑥ The result goes back to the AI</div>
         <div class="flow-arrow">↓</div>
-        <div class="flow-node">⑦ The AI turns it into a plain-language answer</div>
+        <div class="flow-node">⑦ The AI explains the result in plain language</div>
       </div>
-      <p class="diagram-cap">step ④ happens on <em>every single request</em> — there's no "trusted session" shortcut</p>
+      <p class="diagram-cap">Step ④ happens on <em>every single request.</em></p>
     </div>
   </section>
 
@@ -540,22 +540,22 @@
       <div class="access-card">
         <span class="access-tag">Authentication</span>
         <div class="access-q">Who are you?</div>
-        <p class="access-desc">You log in once through the normal Loyalife flow. The AI never receives your console password or cookie.</p>
+        <p class="access-desc">You connect through the normal Loyalife login flow. The AI does not receive your console password or cookie.</p>
       </div>
       <div class="access-card">
         <span class="access-tag">Authorization</span>
-        <div class="access-q">Are you allowed to do this?</div>
-        <p class="access-desc">Your existing role decides which tools the AI can even see — and it's re-checked the instant a tool is called, not just at login.</p>
+        <div class="access-q">What can you do?</div>
+        <p class="access-desc">Your existing Loyalife admin role controls which tools you can use. Loyalife checks permission when a tool is called.</p>
       </div>
       <div class="access-card">
         <span class="access-tag">Session / token</span>
-        <div class="access-q">How long is this valid for?</div>
-        <p class="access-desc">Access expires automatically and refreshes quietly in the background — a live connection won't nag you, but a stale one dies on its own.</p>
+        <div class="access-q">How long does access last?</div>
+        <p class="access-desc">Access expires automatically and refreshes quietly in the background.</p>
       </div>
       <div class="access-card">
         <span class="access-tag">Revocation</span>
-        <div class="access-q">Can this be shut off?</div>
-        <p class="access-desc">If an account is locked, deactivated, or program access is pulled, the AI session dies immediately — not "eventually."</p>
+        <div class="access-q">Can access be stopped?</div>
+        <p class="access-desc">Yes. If access is removed or the account is deactivated, the MCP connection is no longer usable.</p>
       </div>
       <div class="access-card">
         <span class="access-tag">Audit log</span>
@@ -564,15 +564,15 @@
       </div>
       <div class="access-card">
         <span class="access-tag">Rate limiting</span>
-        <div class="access-q">Is this happening too fast?</div>
-        <p class="access-desc">Independent limits per person, per program, and per login attempt stop runaway or abusive use — including a loop the AI itself might get stuck in.</p>
+        <div class="access-q">Can it run too many requests?</div>
+        <p class="access-desc">Independent limits per person, per program, and per login attempt stop runaway or abusive use.</p>
       </div>
     </div>
   </section>
 
   <section id="s5">
     <p class="num">05</p>
-    <h2>What can it actually do?</h2>
+    <h2>What can it do?</h2>
     <p>The Loyalife MCP exposes roughly <strong>119 tools across 15 functional areas</strong> — covering most of what an admin can already do in the console.</p>
 
     <div class="diagram">
@@ -593,26 +593,26 @@
       </div>
     </div>
 
-    <p><strong>A tool the AI can't see doesn't exist to it.</strong> If your role lacks permission, the AI isn't offered that tool at all — it's not that it tries and gets denied, it's never on the menu.</p>
+    <p><strong>A tool the AI cannot access is not available to it.</strong>  The AI can only use exposed tools that the user is allowed to use.</p>
 
     <div class="can-cannot" style="margin-top:20px;">
       <div class="cc-col can">
         <h4>CAN</h4>
         <ul>
-          <li>Use specific capabilities that have been exposed as tools</li>
-          <li>Retrieve information you're permitted to see</li>
-          <li>Perform permitted actions, logged as they happen</li>
-          <li>Work with the structured inputs/outputs each tool defines</li>
+          <li>Use exposed Loyalife capabilities</li>
+          <li>Retrieve information the user is allowed to see</li>
+          <li>Perform permitted actions</li>
+          <li>Work with the inputs and outputs defined by each tool</li>
         </ul>
       </div>
       <div class="cc-col cannot">
         <h4>CANNOT</h4>
         <ul>
-          <li>Access anything not explicitly exposed as a tool</li>
-          <li>See or do anything your role doesn't permit</li>
-          <li>Bypass RBAC, validation, or business rules</li>
-          <li>Grant itself more access than you actually have</li>
-          <li>Replace the console or underlying services</li>
+          <li>Access capabilities that have not been exposed</li>
+          <li>See or do what the user's role does not allow</li>
+          <li>Bypass permissions, validation, or business rules</li>
+          <li>Give itself more access</li>
+          <li>Replace Loyalife's backend or admin console</li>
         </ul>
       </div>
     </div>
@@ -620,7 +620,7 @@
 
   <section id="s6">
     <p class="num">06</p>
-    <h2>Before MCP vs. after MCP</h2>
+    <h2>Before vs. after MCP</h2>
     <div class="compare">
       <div class="col before">
         <h4>Before</h4>
@@ -651,62 +651,40 @@
         </div>
       </div>
     </div>
-    <p style="margin-top:20px"><strong>What this removes:</strong> manual navigation across screens, context-switching, repetitive lookups, and needing to know exactly which report or API has the answer.</p>
-    <p><strong>What it does not remove:</strong> permissions, business rules, validation, approval steps, or the need for a capability to exist as an exposed tool in the first place. MCP removes the legwork around governance — it doesn't skip governance.</p>
+    <p style="margin-top:20px"><strong>MCP removes the manual work around finding and using existing capabilities.</strong>  It does not remove permissions, business rules, validation, approval steps, or the need for a capability to exist as a tool.</p>
   </section>
 
   <section id="s7">
     <p class="num">07</p>
-    <h2>Where MCP can save us from building another feature</h2>
+    <h2>Where MCP can save feature work</h2>
 
-    <p><strong>The important distinction: MCP does not create capabilities.</strong> If the underlying Loyalife data or operation exists and can be safely exposed as a tool, we may be able to reach it through AI without building a dedicated experience for every use case.</p>
+    <p>The Loyalife MCP covers many capabilities already available in the admin console.</p>
 
     <h3 style="margin-top:32px;">Simple examples, today</h3>
     <div class="usecase-grid">
       <div class="usecase">
-        <span class="emoji">🔎</span>
         <div class="label">Find information</div>
         <div class="ask">"Show me this member's redemption history"</div>
-        <div class="real">A read-only tool looks up and returns the data.</div>
+        <div class="real">AI uses a read tool to retrieve the data.</div>
       </div>
       <div class="usecase">
-        <span class="emoji">📊</span>
         <div class="label">Understand data</div>
         <div class="ask">"How many members are in Tier 2 right now?"</div>
-        <div class="real">A read tool aggregates and returns a count.</div>
+        <div class="real">AI uses available data to return the count.</div>
       </div>
       <div class="usecase">
-        <span class="emoji">⚙️</span>
         <div class="label">Perform an action</div>
         <div class="ask">"Approve this anomaly transaction"</div>
-        <div class="real">A write tool performs the action — same permission checks, fully logged.</div>
+        <div class="real">AI uses an approved write tool. Permissions still apply.</div>
       </div>
       <div class="usecase">
-        <span class="emoji">🧩</span>
         <div class="label">Configure something</div>
         <div class="ask">"Update this tier's qualification method"</div>
-        <div class="real">A write tool changes program config, same as doing it in the console.</div>
+        <div class="real">AI reads the existing configuration and summarizes it.</div>
       </div>
     </div>
 
-    <h3 style="margin-top:32px;">Example 1: bulk campaign creation from a spec</h3>
-    <p>A spreadsheet defines a batch of campaigns — name, rules, dates, target segment, one row per campaign. Today, someone builds each one by hand in the console. With MCP, Claude reads the spec and creates them directly — the same pattern already used to bulk-configure member attributes.</p>
-
-    <div class="diagram">
-      <div class="flow">
-        <div class="flow-node">Spreadsheet with campaign definitions — one row per campaign</div>
-        <div class="flow-arrow">↓</div>
-        <div class="flow-node">Claude reads the spec and maps each row to Loyalife's campaign &amp; rule fields</div>
-        <div class="flow-arrow">↓</div>
-        <div class="flow-node">MCP tools create each campaign and its rules, one at a time, permission-checked</div>
-        <div class="flow-arrow">↓</div>
-        <div class="flow-node">Claude reports back what was created — and flags anything it couldn't map cleanly</div>
-      </div>
-    </div>
-
-    <p style="margin-top:12px; font-size:13.5px; color:var(--ink-soft);">This is an example of a real feature that doesn't need to be built as a Loyalife feature. MCP already exposes what it needs.</p>
-
-    <h3 style="margin-top:32px;">Example 2: bulk claims approval from a review list</h3>
+    <h3 style="margin-top:32px;">Example 1: bulk claims approval from a review list</h3>
     <p>A CS lead has already reviewed a batch of claims and knows which should be approved and which declined. Today, that means opening the approvals queue and clicking through them one at a time. With MCP, Claude works through the list directly.</p>
 
     <div class="diagram">
@@ -721,7 +699,24 @@
       </div>
     </div>
 
-    <p style="margin-top:12px; font-size:13.5px; color:var(--ink-soft);">This is an example of another real feature that doesn't need to be built as a Loyalife feature. MCP already exposes what it needs.</p>
+    <p style="margin-top:12px; font-size:13.5px; color:var(--ink-soft);">This is an example of a real feature that doesn't need to be built as a Loyalife feature. MCP already exposes what it needs.</p>
+    
+    <h3 style="margin-top:32px;">Example 2: bulk campaign creation from a spec</h3>
+    <p>A spreadsheet defines a batch of campaigns — name, rules, dates, target segment, one row per campaign. Today, someone builds each one by hand in the console. With MCP, Claude reads the spec and creates them directly — the same pattern already used to bulk-configure member attributes.</p>
+
+    <div class="diagram">
+      <div class="flow">
+        <div class="flow-node">Spreadsheet with campaign definitions — one row per campaign</div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-node">Claude reads the spec and maps each row to Loyalife's campaign &amp; rule fields</div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-node">MCP tools create each campaign and its rules, one at a time, permission-checked</div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-node">Claude reports back what was created — and flags anything it couldn't map cleanly</div>
+      </div>
+    </div>
+
+<p style="margin-top:12px; font-size:13.5px; color:var(--ink-soft);">This is an example of another real feature that doesn't need to be built as a Loyalife feature. MCP already exposes what it needs.</p>
 
     <h3 style="margin-top:32px;">More examples across the platform</h3>
     <div class="table-wrap">
@@ -813,43 +808,41 @@
 
   <section id="s9">
     <p class="num">08</p>
-    <h2>Who actually uses this?</h2>
-    <p>Many enterprise clients — banks especially — spend little time in the admin console themselves. Internal Loyalife teams are likely the first real users of MCP.</p>
+    <h2>Who can use it?</h2>
+    <p>MCP can be useful for internal Loyalife teams, especially where people regularly need to find program information, investigate issues, or make repetitive changes.</p>
 
     <div class="team-grid" style="margin-top:24px;">
       <div class="team-card">
         <h4>Demo / Pre-sales</h4>
         <ul>
-          <li>Pull program/campaign details live to answer a prospect's question</li>
-          <li>Walk through a sample member's journey during a pitch</li>
-          <li>Seed sample data for a tailored demo</li>
+          <li>Pull program and campaign details during a demo</li>
+          <li>Answer prospect questions using live program data</li>
+          <li>Prepare sample data for a tailored demo</li>
         </ul>
-        <p style="font-size:12.5px; color:var(--ink-soft); margin:0;">Arguably the strongest pitch moment: demonstrating an AI-assisted conversation with Loyalife, live, is itself the demo.</p>
       </div>
       <div class="team-card">
         <h4>Implementation</h4>
         <ul>
-          <li>Answer "how is this currently configured?" during setup</li>
-          <li>Spot-check tier/rule/fraud config against expectations</li>
-          <li>Make small config adjustments during setup</li>
+          <li>Check how a program is configured</li>
+          <li>Compare tier, rule, and fraud setup with expected configuration</li>
+          <li>Make supported configuration changes</li>
         </ul>
       </div>
       <div class="team-card">
         <h4>Customer Success</h4>
         <ul>
-          <li>"How is this program configured?" without even opening the Loyalife admin console</li>
-          <li>Investigate a client's member/program question directly</li>
-          <li>Assemble a performance-trend view from existing data</li>
+          <li>Answer program and member questions</li>
+          <li>Investigate client issues without navigating multiple screens</li>
+          <li>Pull together information from existing data</li>
         </ul>
-        <p style="font-size:12.5px; color:var(--ink-soft); margin:0;">A great day-to-day timesaver.</p>
       </div>
       <div class="team-card">
         <h4>Customer Support</h4>
         <ul>
-          <li>Gather member/transaction/rule context before responding</li>
-          <li>Check anomaly/fraud flags on a disputed transaction</li>
+          <li>Gather member, transaction, and rule context</li>
+          <li>Check anomaly or fraud information</li>
+          <li>Give engineering better evidence when an issue needs escalation</li>
         </ul>
-        <p style="font-size:12.5px; color:var(--ink-soft); margin:0;">Speeds up investigation. A real backend bug can now get escalated to engineering — and with better evidence attached.</p>
       </div>
     </div>
   </section>
@@ -873,23 +866,6 @@
         <div class="bridge-side loy">Loyalife world</div>
       </div>
       <p class="diagram-cap">the only crossing point — with a checkpoint on every single trip across</p>
-    </div>
-  </section>
-
-  <section id="s14">
-    <p class="num">10</p>
-    <h2>Terms you'll actually need</h2>
-    <div class="glossary-grid">
-      <div class="term"><div class="name">MCP</div><div class="def">The standard that lets an AI call external tools.</div><div class="care"><b>Why care:</b> it's the "how" behind every AI–Loyalife interaction.</div></div>
-      <div class="term"><div class="name">Tool</div><div class="def">One specific, exposed capability — e.g. "look up a member."</div><div class="care"><b>Why care:</b> this is the unit you'll scope when requesting a new AI-usable capability.</div></div>
-      <div class="term"><div class="name">Authentication</div><div class="def">Confirming who you are.</div><div class="care"><b>Why care:</b> happens once, through the normal login.</div></div>
-      <div class="term"><div class="name">Authorization (RBAC)</div><div class="def">Confirming what you're allowed to do.</div><div class="care"><b>Why care:</b> checked live, every single call — not just at login.</div></div>
-      <div class="term"><div class="name">Session</div><div class="def">The record of "you're currently connected."</div><div class="care"><b>Why care:</b> it has a lifespan and dies if you're deactivated.</div></div>
-      <div class="term"><div class="name">Access token</div><div class="def">A short-lived pass the AI uses to make requests.</div><div class="care"><b>Why care:</b> expires automatically within roughly an hour.</div></div>
-      <div class="term"><div class="name">Refresh token</div><div class="def">A longer-lived credential used to get a new access token silently.</div><div class="care"><b>Why care:</b> valid ~30 days, single-use each time.</div></div>
-      <div class="term"><div class="name">Rate limiting</div><div class="def">Caps on how many requests can happen in a given time.</div><div class="care"><b>Why care:</b> prevents abuse or a runaway automated loop.</div></div>
-      <div class="term"><div class="name">Audit log</div><div class="def">The record of every session and every tool call.</div><div class="care"><b>Why care:</b> how "what did the AI actually do" gets answered later.</div></div>
-      <div class="term"><div class="name">Revocation</div><div class="def">Killing access before it would naturally expire.</div><div class="care"><b>Why care:</b> instant if an account or program is locked.</div></div>
     </div>
   </section>
 
@@ -960,15 +936,13 @@
     <h2>The big picture</h2>
     <div class="diagram">
       <div class="stack">
-        <div class="layer ai"><span class="title">AI / LLM</span><span class="desc">Understands user intent</span></div>
+        <div class="layer ai"><span class="title">AI / LLM</span><span class="desc"> Understands user intent</span></div>
         <div class="down">↓</div>
-        <div class="layer mcp"><span class="title">MCP</span><span class="desc">Controlled interface to specific, permitted tools</span></div>
+        <div class="layer mcp"><span class="title">MCP</span><span class="desc"> Controlled interface to specific, permitted tools</span></div>
         <div class="down">↓</div>
-        <div class="layer loy"><span class="title">LOYALIFE</span><span class="desc">Data + business logic + services + permissions</span></div>
+        <div class="layer loy"><span class="title">LOYALIFE</span><span class="desc"> Data + business logic + services + permissions</span></div>
       </div>
     </div>
-    <p style="font-size:17px; margin-top:24px;"><strong>The one sentence to remember:</strong> MCP doesn't make Loyalife itself intelligent. It gives an AI assistant a controlled, permission-checked way to interact with the specific capabilities we choose to expose — nothing more, nothing less.</p>
-    <p style="margin-top:16px; font-size:14.5px; color:var(--ink-soft);">Practically, that means the useful question for a PM isn't "where do we put the AI?" — it's "what capability should we expose, to whom, and under what conditions?" The nearest-term proving ground for that is probably our own teams, not client admins; the longer-term opportunity, including in enterprise conversations, still depends on the same fundamentals — permissions, auditability, and capabilities that are actually built and exposed.</p>
   </section>
 
 </div>
