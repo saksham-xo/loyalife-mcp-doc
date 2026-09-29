@@ -387,7 +387,11 @@
 
   /* ---- comparison table ---- */
   .table-wrap{ overflow-x:auto; margin:16px 0; border:1px solid var(--line); border-radius:12px; }
+  .table-wrap.wide{ width:100vw; max-width:1100px; margin-left:calc(50% - 50vw); margin-right:calc(50% - 50vw); }
+  @media (max-width:1160px){ .table-wrap.wide{ width:calc(100vw - 32px); margin-left:calc(50% - 50vw + 16px); margin-right:calc(50% - 50vw + 16px); } }
   table.compare-table{ width:100%; border-collapse:collapse; font-size:13px; min-width:640px; }
+  .table-wrap.wide table.compare-table{ min-width:0; }
+  .table-wrap.wide td, .table-wrap.wide th{ padding:12px 16px; }
   table.compare-table th{ text-align:left; font-family:'Inter',sans-serif; font-size:10.5px; text-transform:uppercase; letter-spacing:0.04em; color:var(--ink-soft); background:var(--surface); padding:10px 12px; border-bottom:1px solid var(--line-strong); }
   table.compare-table td{ padding:10px 12px; border-bottom:1px solid var(--line); vertical-align:top; color:var(--ink-soft); }
   table.compare-table tr:last-child td{ border-bottom:none; }
@@ -420,15 +424,6 @@
   .prompt-item:hover{ border-color:var(--ai); background:var(--ai-soft); }
   .prompt-item .copy-hint{ flex:0 0 auto; font-size:11px; color:var(--ink-faint); margin-top:1px; }
   .prompt-item:hover .copy-hint{ color:var(--ai); }
-
-  /* ---- spotlight callout ---- */
-  .spotlight{
-    margin-top:20px; border:1.5px solid var(--ai); border-radius:14px;
-    background:var(--ai-soft); padding:20px 22px;
-  }
-  .spotlight h4{ margin:0 0 8px; font-family:'Inter',sans-serif; font-size:14px; color:var(--ai); }
-  .spotlight p{ font-size:13.5px; color:var(--ink); margin:0 0 10px; }
-  .spotlight .prompt-item{ background:var(--surface); }
 
   /* ---- lean-toward cards (decision framework) ---- */
   .lean-grid{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:16px; }
@@ -753,7 +748,7 @@
 <p style="margin-top:12px; font-size:13.5px; color:var(--ink-soft);">This is an example of another real feature that doesn't need to be built as a Loyalife feature. MCP already exposes what it needs.</p>
 
     <h3 style="margin-top:32px;">More examples across the platform</h3>
-    <div class="table-wrap">
+    <div class="table-wrap wide">
       <table class="compare-table">
         <tr><th>Use case</th><th>Traditional approach</th><th>MCP opportunity</th></tr>
         <tr>
@@ -910,16 +905,6 @@
           </ul>
         </div>
       </div>
-    </div>
-
-    <div class="spotlight">
-      <h4>⭐ Spotlight: Implementation — from file upload to full configuration, in one conversation</h4>
-      <p>Something that used to go back and forth between spreadsheets, screens, and team members can now happen end-to-end in a single chat. Upload your spec file (Excel/CSV) and go from attribute creation to rule creation without leaving the conversation.</p>
-      <ul class="prompt-list">
-        <li class="prompt-item" onclick="copyPrompt(this)"><span class="copy-hint">📋</span><span>"Upload this Excel file and create all the member attributes defined in it — names, types, and validation rules"</span></li>
-        <li class="prompt-item" onclick="copyPrompt(this)"><span class="copy-hint">📋</span><span>"Using the attribute spec I just uploaded, create the corresponding earning and redemption rules with the thresholds defined in the file"</span></li>
-        <li class="prompt-item" onclick="copyPrompt(this)"><span class="copy-hint">📋</span><span>"Now set up the tier qualification rules based on the same spec, and flag anything that doesn't map cleanly"</span></li>
-      </ul>
     </div>
   </section>
 
